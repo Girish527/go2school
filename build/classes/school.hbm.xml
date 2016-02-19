@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+   
+   <class name="com.goschool.beans.Student" table="student" schema="state">
+      <meta attribute="class-description">
+         This class contains the admission data. 
+      </meta>
+     <id name="id" type="int" column="id">
+		<generator class="increment"/>
+      </id>
+	      <property column="phone" name="phone" type="java.lang.String"/>
+          <property column="firstname" name="firstName" type="java.lang.String"/>
+          <property column="email" name="email" type="java.lang.String"/>
+          <property column="lastname" name="lastName" type="java.lang.String"/>
+          <property column="schoolName" name="schoolName" type="java.lang.String"/>
+          <property column="place" name="place" type="java.lang.String"/>
+          <property column="adminid" name="adminid" type="java.lang.Integer"/>         
+   </class>
+   
+   
+   <class name="com.goschool.beans.School" table="school" schema="schooldb">
+      <meta attribute="class-description">
+         This class contains the schools data. 
+      </meta>
+     <id name="id" type="int" column="id">
+		<generator class="increment"/>
+      </id>
+      <property column="schoolName" name="schoolName" type="java.lang.String"/>
+      <property column="imagepath" name="imagepath" type="java.lang.String"/>
+      <property column="adminid" name="adminid" type="java.lang.Integer"/>
+      <property column="place" name="place" type="java.lang.String"/>
+   </class>
+   
+   
+   <class name="com.goschool.beans.RecentActivity" table="recentactivity">
+      <meta attribute="class-description">
+         This class contains the recent data. 
+      </meta>
+     <id name="id" type="int" column="id">
+         <generator class="increment"/>
+      </id>
+	  <property column="recentactivity" name="recentactivity1" type="java.lang.String" />
+       <property column="schoolId" name="schoolId" type="java.lang.Integer" />   
+   </class>
+   
+   
+   
+   <class name="com.goschool.beans.Admin" table="admin">
+      <meta attribute="class-description">
+         This class contains the admission data. 
+      </meta>
+     <id name="id" type="int" column="id">
+         <generator class="increment"/>
+      </id>
+	  <property column="phone" name="phone" type="java.lang.String" />
+          <property column="firstname" name="firstName" type="java.lang.String" />
+          <property column="email" name="email" type="java.lang.String" />
+          <property column="lastname" name="lastName" type="java.lang.String" />
+          <property column="username" name="userName" type="java.lang.String" />
+          <property column="password" name="password" type="java.lang.String" />
+          <property column="city" name="city" type="java.lang.String" />
+          <property column="schoolname" name="schoolname" type="java.lang.String" />
+          <property column="pincode" name="pincode" type="java.lang.Integer" />
+          
+   </class>
+   
+   
+   <class name="com.goschool.beans.Parents" table="parents">
+      <meta attribute="class-description">
+         This class contains the admission data. 
+      </meta>
+     <id name="id" type="int" column="Id">
+         <generator class="increment"/>
+      </id>
+	       <property column="phone" name="Phone" type="java.lang.String" />
+           <property column="username" name="Username" type="java.lang.String" />
+           <property column="email" name="Email" type="java.lang.String" />
+   </class>
+   
+   
+   
+   <class name="com.goschool.beans.Address" table="address" schema="schooldb">
+      <meta attribute="class-description">
+         This class contains the admission data. 
+      </meta>
+     <id name="id" type="int" column="id">
+         <generator class="increment"/>
+      </id>
+	       <property column="phone" name="phone" type="java.lang.String" />
+           <property column="doorno" name="doorNo" type="java.lang.String" />
+           <property column="address1" name="address1" type="java.lang.String" />
+           <property column="address2" name="address2" type="java.lang.String" />
+           <property column="city" name="city" type="java.lang.String" />
+           <property column="state" name="state" type="java.lang.String" />
+           <property column="school_id" name="schoolId" type="java.lang.Integer" />
+           <property column="pincode" name="pincode" type="java.lang.Integer" />
+   </class>
+   
+   
+	
+</hibernate-mapping>

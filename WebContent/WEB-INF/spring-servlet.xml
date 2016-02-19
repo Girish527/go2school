@@ -1,0 +1,187 @@
+<?xml  version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+		
+	
+<!-- 	<context:component-scan base-package="net.viralpatel.spring.autocomplete" />	 -->
+
+	<mvc:annotation-driven />
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-DAOIMPLEMENTATIONS=-=-=-=-=-=-=-=-=-=-=- -->
+	<bean id="admissiondaoimpls" class="com.goschool.daoimplementations.AdmissionDaoImpl">
+	      <property name="sessionFactory" ref="sessionFactory" /> 
+		<!--  <property name="template" ref="template"/> -->
+	</bean>
+	<bean id="schooldao" class="com.goschool.daoimplementations.SchoolDaoImplementation">
+	      <property name="sessionFactory" ref="sessionFactory" /> 
+		<!--  <property name="template" ref="template"/> -->
+	</bean>
+	
+	<!-- this for third(admin) dao impl -->
+	
+	<bean id="adminpagedaoimpls" class="com.goschool.daoimplementations.AdminPageDaoImpl">
+	      <property name="sessionFactory" ref="sessionFactory" /> 
+		 <property name="db" ref="db"/>
+	</bean>
+	
+	
+	
+	<!-- this for four(admin) dao impl -->
+	
+	<bean id="adminregisterdaoimpls" class="com.goschool.daoimplementations.AdminRegisterDaoImpl">
+	      <property name="sessionFactory" ref="sessionFactory" /> 
+		<!--  <property name="template" ref="template"/> -->
+	</bean>
+	
+	<!-- =-=-=-=-=-=-=-=-=-=-=-CONTROLLERS=-=-=-=-=-=-=-=-=-=-=- -->
+
+	<bean id="admissionController" class="com.goschool.controllers.AdmissionController" >
+    	<property name="serviceimpl" ref="serviceimpls" />
+    	<property name="schoolService" ref="SchooldataService" />
+	</bean>
+	
+	<!-- this for third (admin) controller -->
+	
+	<bean id="adminPageController" class="com.goschool.controllers.AdminPageController" >
+    	<property name="adminpageserviceimpl" ref="adminpageserviceimpls" />
+	</bean>
+	
+	<!-- this for four (admin) controller -->
+	
+	<bean id="adminRegisterController" class="com.goschool.controllers.AdminRegisterController" >
+    	<property name="adminregisterserviceimpl" ref="adminregisterserviceimpls" />
+	</bean>
+	
+
+	<!-- =-=-=-=-=-=-=-=-=-=-=-URL TO MULTI ACTION CONTROLLER METHOD RESOLVER=-=-=-=-=-=-=-=-=-=-=- -->
+	<bean id="paramResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+	      <property name="paramName" value="action" />
+	</bean>
+	
+	<!-- =-=-=-=-=-=-=-=-=-=-=-SERVICES=-=-=-=-=-=-=-=-=-=-=- -->	
+	<bean id="serviceimpls" class="com.goschool.services.AdmissionServiceImpl">
+		<property name="admissiondaoimpl" ref="admissiondaoimpls"/>
+	</bean>
+	<bean id="SchooldataService" class="com.goschool.services.SchoolDataService">
+		<property name="schooldao" ref="schooldao"/>
+	</bean>
+	
+	<!-- this for third (admin) service -->
+	<bean id="adminpageserviceimpls" class="com.goschool.services.AdminPageService">
+		<property name="adminpagedaoimpl" ref="adminpagedaoimpls"/>
+	</bean>
+	
+	<!-- this for four (admin) service -->
+	<bean id="adminregisterserviceimpls" class="com.goschool.services.AdminRegisterServiceImpl">
+		<property name="adminregisterdaoimpl" ref="adminregisterdaoimpls"/>
+	</bean>
+	
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-HIBERNATE TEMPLATE=-=-=-=-=-=-=-=-=-=-=-  -->
+ <!-- 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"></property>
+		<property name="username" value="system"></property>
+		<property name="password" value="abc"></property>
+	</bean>
+	                 
+	-->
+	
+		
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/schooldb"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="Girish@527"></property>
+	</bean>    
+	
+	
+	<bean id="db" class="org.springframework.jdbc.core.JdbcTemplate">  
+<property name="dataSource" ref="dataSource"></property>  
+</bean> 
+	
+	
+
+	<bean id="sessionFactory"  
+  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">  
+  <property name="dataSource" ref="dataSource" />
+  <property name="mappingResources">
+			<list>
+				<value>school.hbm.xml</value>
+			</list>
+		</property>
+  
+    
+ <!--  <property name="annotatedClasses">    
+            <list>    
+                <value>school.hbm.xml</value>    
+            </list>    
+        </property> -->
+		
+<!--  <property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+		<property name="mappingResources">
+			<list>
+				<value>school.hbm.xml</value>
+			</list>
+		</property> -->
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+	
+<!--                   <bean id="sessionFactory"  
+  class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">  
+  <property name="dataSource" ref="dataSource" />  
+  <property name="annotatedClasses">    
+            <list>    
+                <value>com.beingjavaguys.domain.Employee</value>    
+            </list>    
+        </property>   
+  <property name="hibernateProperties">  
+   <props>  
+    <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>  
+    <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>  
+   </props>  
+  </property>  
+ </bean>                                          -->	
+	
+ <bean id="txManager"  
+  class="org.springframework.orm.hibernate4.HibernateTransactionManager">  
+  <property name="sessionFactory" ref="sessionFactory" />  
+ </bean>  
+ 
+ <!--  
+  
+   <bean id="persistenceExceptionTranslationPostProcessor"  
+  class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	
+	-->
+	
+	<!-- this for only template
+	
+	<bean id="template" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+
+-->
+
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+</beans>
